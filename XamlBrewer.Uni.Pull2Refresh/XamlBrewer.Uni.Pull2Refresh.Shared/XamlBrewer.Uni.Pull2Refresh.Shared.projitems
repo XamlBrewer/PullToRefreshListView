@@ -31,4 +31,7 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="$(MSBuildThisFileDirectory)Assets\Mr-Magoo.png" />
+  </ItemGroup>
 </Project>
