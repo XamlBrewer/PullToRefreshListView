@@ -32,7 +32,7 @@ namespace XamlBrewer.Universal.Controls
 
         public static readonly DependencyProperty PullTextProperty = DependencyProperty.Register("PullText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull to refresh"));
         public static readonly DependencyProperty RefreshTextProperty = DependencyProperty.Register("RefreshText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to refresh"));
-        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(100D));
+        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(60D));
         public static readonly DependencyProperty RefreshCommandProperty = DependencyProperty.Register("RefreshCommand", typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
         public static readonly DependencyProperty ArrowColorProperty = DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
@@ -165,7 +165,10 @@ namespace XamlBrewer.Universal.Controls
         {
             if (isCompressedEnough)
             {
-                VisualStateManager.GoToState(this, VisualStateReadyToRefresh, true);
+                Debug.WriteLine("Switch to Refresh");
+                var change = VisualStateManager.GoToState(this, VisualStateReadyToRefresh, true);
+                // If false: VSM not found
+                // https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.visualstatemanager.gotostate.aspx
                 isReadyToRefresh = true;
             }
             else
@@ -186,7 +189,7 @@ namespace XamlBrewer.Universal.Controls
             {
                 Rect elementBounds = pullToRefreshIndicator.TransformToVisual(containerGrid).TransformBounds(new Rect(0.0, 0.0, pullToRefreshIndicator.Height, RefreshHeaderHeight));
                 var compressionOffset = elementBounds.Bottom;
-                Debug.WriteLine(compressionOffset);
+                //Debug.WriteLine(compressionOffset);
 
                 if (compressionOffset > offsetTreshhold)
                 {
@@ -197,6 +200,7 @@ namespace XamlBrewer.Universal.Controls
                     }
 
                     isCompressedEnough = true;
+                    Debug.WriteLine("Compressed enough");
                 }
                 else if (compressionOffset == 0 && isReadyToRefresh == true)
                 {

@@ -3,15 +3,20 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:local="using:XamlBrewer.Uni.Pull2Refresh.Views"
       xmlns:controls="using:XamlBrewer.Universal.Controls"
+      xmlns:vm="using:XamlBrewer.Uni.Pull2Refresh.ViewModels"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       mc:Ignorable="d">
+
+    <Page.DataContext>
+        <vm:MainViewModel />
+    </Page.DataContext>
 
     <Page.Resources>
         <SolidColorBrush x:Key="MagooShirtGreen"
                          Color="#FF0A9775" />
     </Page.Resources>
-    
+
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
@@ -27,9 +32,16 @@
                    Grid.Row="0" />
 
         <!-- Da ListView-->
-        <controls:PullToRefreshListView Background="White"
-                                        Margin="0"
+        <controls:PullToRefreshListView ItemsSource="{Binding Episodes}"
+                                        Background="Pink"
                                         Grid.Row="1">
+            <controls:PullToRefreshListView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding Title}" FontSize="64" Foreground="Purple"/>
+                    </Grid>
+                </DataTemplate>
+            </controls:PullToRefreshListView.ItemTemplate>
         </controls:PullToRefreshListView>
         <!-- Logo -->
         <Viewbox x:Name="Logo"
