@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
+using System.Windows.Input;
 using XamlBrewer.Uni.Pull2Refresh.Model;
 
 namespace XamlBrewer.Uni.Pull2Refresh.ViewModels
@@ -10,13 +11,11 @@ namespace XamlBrewer.Uni.Pull2Refresh.ViewModels
     class MainViewModel : BindableBase
     {
         private ObservableCollection<Episode> episodes = new ObservableCollection<Episode>();
+        private RelayCommand refreshCommand;
 
         public MainViewModel()
         {
-            // http://www.tv.com/shows/mr-magoo/episodes/
-            this.episodes.Add(new Episode() { Number = 1, Title = "Magoo's bear" });
-            this.episodes.Add(new Episode() { Number = 2, Title = "Military Magoo" });
-            this.episodes.Add(new Episode() { Number = 3, Title = "Mis-Guided Missile" });
+            refreshCommand = new RelayCommand(Refresh_Executed);
         }
 
         public ObservableCollection<Episode> Episodes
@@ -25,6 +24,15 @@ namespace XamlBrewer.Uni.Pull2Refresh.ViewModels
             set { episodes = value; }
         }
 
+        public ICommand RefreshCommand
+        { get { return refreshCommand; } }
 
+        private void Refresh_Executed()
+        {
+            foreach (var item in Episode.FetchNextTwo(episodes.Count))
+            {
+                episodes.Insert(0, item);
+            }
+        }
     }
 }

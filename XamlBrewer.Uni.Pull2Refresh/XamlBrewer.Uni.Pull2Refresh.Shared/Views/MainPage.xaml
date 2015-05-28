@@ -33,12 +33,20 @@
 
         <!-- Da ListView-->
         <controls:PullToRefreshListView ItemsSource="{Binding Episodes}"
-                                        Background="Pink"
+                                        RefreshCommand="{Binding RefreshCommand}"
+                                        ArrowColor="{StaticResource MagooShirtGreen}"
+                                        Background="White"
                                         Grid.Row="1">
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding Title}" FontSize="64" Foreground="Purple"/>
+                        <TextBlock FontSize="48"
+                                   Foreground="Black">
+                            <Run Text="Episode" />
+                            <Run Text="{Binding Number}" />
+                            <LineBreak />
+                            <Run Text="{Binding Title}" />
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </controls:PullToRefreshListView.ItemTemplate>

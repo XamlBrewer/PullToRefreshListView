@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
 using System.Windows.Input;
 using Windows.Foundation;
@@ -32,12 +31,12 @@ namespace XamlBrewer.Universal.Controls
 
         public static readonly DependencyProperty PullTextProperty = DependencyProperty.Register("PullText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull to refresh"));
         public static readonly DependencyProperty RefreshTextProperty = DependencyProperty.Register("RefreshText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to refresh"));
-        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(60D));
+        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(50D));
         public static readonly DependencyProperty RefreshCommandProperty = DependencyProperty.Register("RefreshCommand", typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
         public static readonly DependencyProperty ArrowColorProperty = DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
 #if WINDOWS_PHONE_APP
-        private double offsetTreshhold = 100;
+        private double offsetTreshhold = 50;
 #endif
 #if WINDOWS_APP
         private double offsetTreshhold = 70;
@@ -165,10 +164,7 @@ namespace XamlBrewer.Universal.Controls
         {
             if (isCompressedEnough)
             {
-                Debug.WriteLine("Switch to Refresh");
-                var change = VisualStateManager.GoToState(this, VisualStateReadyToRefresh, true);
-                // If false: VSM not found
-                // https://msdn.microsoft.com/en-us/library/windows/apps/windows.ui.xaml.visualstatemanager.gotostate.aspx
+                VisualStateManager.GoToState(this, VisualStateReadyToRefresh, true);
                 isReadyToRefresh = true;
             }
             else
@@ -189,7 +185,6 @@ namespace XamlBrewer.Universal.Controls
             {
                 Rect elementBounds = pullToRefreshIndicator.TransformToVisual(containerGrid).TransformBounds(new Rect(0.0, 0.0, pullToRefreshIndicator.Height, RefreshHeaderHeight));
                 var compressionOffset = elementBounds.Bottom;
-                //Debug.WriteLine(compressionOffset);
 
                 if (compressionOffset > offsetTreshhold)
                 {
@@ -200,7 +195,6 @@ namespace XamlBrewer.Universal.Controls
                     }
 
                     isCompressedEnough = true;
-                    Debug.WriteLine("Compressed enough");
                 }
                 else if (compressionOffset == 0 && isReadyToRefresh == true)
                 {
