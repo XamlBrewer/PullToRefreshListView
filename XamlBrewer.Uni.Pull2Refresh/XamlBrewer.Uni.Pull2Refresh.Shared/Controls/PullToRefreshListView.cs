@@ -40,7 +40,7 @@ namespace XamlBrewer.Universal.Controls
         private double offsetTreshhold = 40;
 #endif
 #if WINDOWS_APP
-        private double offsetTreshhold = 70;
+        private double offsetTreshhold = 40;
 #endif
 
         public PullToRefreshListView()
