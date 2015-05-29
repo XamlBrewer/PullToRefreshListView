@@ -1,5 +1,6 @@
 # Pull-to-Refresh ListView 
-# for Windows 8.1 Universal Apps
+(for Windows 8.1 Universal Apps)
+
 Port of Deani Hansen's Pull-to-Refresh ScrollViewer into a ListView control.
 
 Original: https://github.com/deanihansen/Pull-to-refresh-Scrollviewer-WinRT
