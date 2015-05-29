@@ -7,5 +7,5 @@ Original: https://github.com/deanihansen/Pull-to-refresh-Scrollviewer-WinRT
 
 Features:
 * Inherits from ListView.
-* Works already with an empty list.
+* Works even on an empty list.
 * Shows Refresh Button on non-touch devices.
