@@ -96,9 +96,8 @@
                         <Border Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer Margin="0,0,0,-70"
+                            <ScrollViewer Margin="0"
                                           x:Name="ScrollViewer"
-                                          RenderTransformOrigin="0.5,0.5"
                                           TabNavigation="{TemplateBinding TabNavigation}"
                                           HorizontalScrollMode="{TemplateBinding ScrollViewer.HorizontalScrollMode}"
                                           HorizontalScrollBarVisibility="{TemplateBinding ScrollViewer.HorizontalScrollBarVisibility}"
@@ -112,9 +111,6 @@
                                           IsDeferredScrollingEnabled="{TemplateBinding ScrollViewer.IsDeferredScrollingEnabled}"
                                           BringIntoViewOnFocusChange="{TemplateBinding ScrollViewer.BringIntoViewOnFocusChange}"
                                           AutomationProperties.AccessibilityView="Raw">
-                                <ScrollViewer.RenderTransform>
-                                    <CompositeTransform TranslateY="-70" />
-                                </ScrollViewer.RenderTransform>
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
@@ -165,6 +161,15 @@
                                                     FooterTransitions="{TemplateBinding FooterTransitions}"
                                                     Padding="{TemplateBinding Padding}"
                                                     Grid.Row="1" />
+                                    <AppBarButton x:Name="RefreshButton"
+                                                  Icon="Refresh"
+                                                  Label="Refresh"
+                                                  RequestedTheme="Light"
+                                                  Margin="20"
+                                                  HorizontalAlignment="Right"
+                                                  VerticalAlignment="Top"
+                                                  Visibility="Collapsed" 
+                                                  Grid.Row="1"/>
                                 </Grid>
                             </ScrollViewer>
                         </Border>

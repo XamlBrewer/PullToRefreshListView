@@ -15,6 +15,7 @@ namespace XamlBrewer.Universal.Controls
         private const string ScrollViewerControl = "ScrollViewer";
         private const string ContainerGrid = "ContainerGrid";
         private const string PullToRefreshIndicator = "PullToRefreshIndicator";
+        private const string RefreshButton = "RefreshButton";
         private const string VisualStateNormal = "Normal";
         private const string VisualStateReadyToRefresh = "ReadyToRefresh";
 
@@ -31,12 +32,12 @@ namespace XamlBrewer.Universal.Controls
 
         public static readonly DependencyProperty PullTextProperty = DependencyProperty.Register("PullText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Pull to refresh"));
         public static readonly DependencyProperty RefreshTextProperty = DependencyProperty.Register("RefreshText", typeof(string), typeof(PullToRefreshListView), new PropertyMetadata("Release to refresh"));
-        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(50D));
+        public static readonly DependencyProperty RefreshHeaderHeightProperty = DependencyProperty.Register("RefreshHeaderHeight", typeof(double), typeof(PullToRefreshListView), new PropertyMetadata(40D));
         public static readonly DependencyProperty RefreshCommandProperty = DependencyProperty.Register("RefreshCommand", typeof(ICommand), typeof(PullToRefreshListView), new PropertyMetadata(null));
         public static readonly DependencyProperty ArrowColorProperty = DependencyProperty.Register("ArrowColor", typeof(Brush), typeof(PullToRefreshListView), new PropertyMetadata(new SolidColorBrush(Colors.Red)));
 
 #if WINDOWS_PHONE_APP
-        private double offsetTreshhold = 50;
+        private double offsetTreshhold = 40;
 #endif
 #if WINDOWS_APP
         private double offsetTreshhold = 70;
@@ -100,12 +101,20 @@ namespace XamlBrewer.Universal.Controls
         /// <param name="e"></param>
         private void PullToRefreshScrollViewer_Loaded(object sender, RoutedEventArgs e)
         {
+            // Show Refresh Button on non-touch device.
+            if (new Windows.Devices.Input.TouchCapabilities().TouchPresent == 0)
+            {
+                var refreshButton = (Button)GetTemplateChild(RefreshButton);
+                refreshButton.Visibility = Visibility.Visible;
+                refreshButton.Click += RefreshButton_Click;
+            }
+
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromMilliseconds(100);
             timer.Tick += Timer_Tick;
 
             compressionTimer = new DispatcherTimer();
-            compressionTimer.Interval = TimeSpan.FromSeconds(1);
+            compressionTimer.Interval = TimeSpan.FromSeconds(.5);
             compressionTimer.Tick += CompressionTimer_Tick;
 
             timer.Start();
@@ -206,6 +215,11 @@ namespace XamlBrewer.Universal.Controls
                     isCompressionTimerRunning = false;
                 }
             }
+        }
+
+        private void RefreshButton_Click(object sender, object e)
+        {
+            InvokeRefresh();
         }
 
         /// <summary>

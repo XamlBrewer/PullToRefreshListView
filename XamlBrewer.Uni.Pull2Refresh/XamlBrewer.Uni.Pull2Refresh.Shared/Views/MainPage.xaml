@@ -17,7 +17,7 @@
                          Color="#FF0A9775" />
     </Page.Resources>
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="DimGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="auto" />
             <RowDefinition Height="*" />
@@ -35,17 +35,21 @@
         <controls:PullToRefreshListView ItemsSource="{Binding Episodes}"
                                         RefreshCommand="{Binding RefreshCommand}"
                                         ArrowColor="{StaticResource MagooShirtGreen}"
-                                        Background="White"
+                                        Background="LightBlue"
                                         Grid.Row="1">
             <controls:PullToRefreshListView.ItemTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock FontSize="48"
-                                   Foreground="Black">
+                        <TextBlock FontSize="32"
+                                   Foreground="Black"
+                                   Margin="0 0 0 10"
+                                   FontFamily="Segoe UI Semilight">
                             <Run Text="Episode" />
                             <Run Text="{Binding Number}" />
+                            <Run Text=":" />
                             <LineBreak />
-                            <Run Text="{Binding Title}" />
+                            <Run Text="{Binding Title}"
+                                 FontSize="36" />
                         </TextBlock>
                     </Grid>
                 </DataTemplate>
@@ -99,7 +103,7 @@
         <Image Source="ms-appx:///Assets/Mr-Magoo.png"
                VerticalAlignment="Bottom"
                HorizontalAlignment="Left"
-               Margin="10"
+               Margin="10 10 10 -20"
                Height="240"
                Grid.Row="1"
                Grid.RowSpan="1" />
